@@ -1,6 +1,6 @@
 <?php
 
-function info_pendatang_default_config()
+function tanya_komen_default_config()
 {
     return [
         'version' => TanyaKomen::$version,
@@ -46,10 +46,10 @@ function info_pendatang_default_config()
     ];
 }
 
-function info_pendatang_merge_config()
+function tanya_komen_merge_config()
 {
     $ignore = ['pertanyaan'];
-    $default = info_pendatang_default_config();
+    $default = tanya_komen_default_config();
     foreach ( $default as $key => $value ) {
         if ( in_array( $key, $ignore ) ) {
             continue;
@@ -58,13 +58,13 @@ function info_pendatang_merge_config()
             TanyaKomen::$config[$key] = $value;
         }
     }
-    TanyaKomen::$config['version'] = infoPendatang::$version;
+    TanyaKomen::$config['version'] = TanyaKomen::$version;
 }
 
 if ( empty( TanyaKomen::$config ) ) {
-    TanyaKomen::$config = info_pendatang_default_config();
+    TanyaKomen::$config = tanya_komen_default_config();
     TanyaKomen::save_config();
 } elseif ( TanyaKomen::$config['version'] != TanyaKomen::$version ) {
-    info_pendatang_merge_config();
+    tanya_komen_merge_config();
     TanyaKomen::save_config();
 }
