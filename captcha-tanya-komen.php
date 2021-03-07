@@ -14,24 +14,13 @@ class TanyaKomen
 {
     public static $title = 'Captcha Tanya Komen';
     public static $name = 'captcha_tanya_komen';
-    public static $version = '1.0.0';
+    public static $version = '1.0.1';
     public static $me = false;
     public static $config = null;
-    public static $table = null;
-    public static $global = [];
-
     public function __construct()
     {
-        global $table_prefix;
-
         self::$me = &$this;
-
         add_action( 'init', array( $this, 'init' ) );
-        add_action( 'admin_print_scripts', array( $this, 'javascripts' ) );
-        add_action( 'admin_print_styles', array( $this, 'stylesheets' ) );
-
-        // Set global table name
-        self::$table = $table_prefix . self::$name;
 
         //intialize default config
         $saved_config = get_option( self::$name );
@@ -46,9 +35,6 @@ class TanyaKomen
 
     public function init()
     {
-        wp_register_script( 'captcha-tanya-komen', CTK_URL . 'script.js', ['jquery'], self::$version );
-        wp_register_style( 'captcha-tanya-komen', CTK_URL . 'style.css', [], self::$version );
-
         //add_filter( 'comment_form_defaults', array( $this, 'comment_form_defaults' ), 999 );
         add_action( 'comment_form_after_fields', array( $this, 'comment_form_defaults' ) );
         add_filter( 'pre_comment_on_post', array( $this, 'pre_comment_on_post' ), 999 );
@@ -79,16 +65,6 @@ class TanyaKomen
             self::save_config( 'pertanyaan', $new_val );
         }
         include CTK_DIR . 'page/setting.php';
-    }
-
-    public function javascripts()
-    {
-        wp_enqueue_script( 'captcha-tanya-komen' );
-    }
-
-    public function stylesheets()
-    {
-        wp_enqueue_style( 'captcha-tanya-komen' );
     }
 
     public function comment_form_defaults()
@@ -154,4 +130,4 @@ class TanyaKomen
     }
 }
 
-$CTK = TanyaKomen::run();
+TanyaKomen::run();
